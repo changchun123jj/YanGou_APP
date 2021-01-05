@@ -1,0 +1,57 @@
+# spring boot 配置文件
+
+
+#控制台打印SQL语句
+logging:
+  level:
+ #   web: trace
+    com.example.demo.mapper.primary: debug
+
+#连字符
+---
+#profile=x的专用属性，也就是某个环境下的专用属性
+#开发环境
+spring:
+  profiles: dev
+  datasource:
+    primary:
+      type: com.alibaba.druid.pool.DruidDataSource
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://116.62.115.84:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+      username: root
+      password: 593849992
+      initialSize: 5
+      minIdle: 5
+      maxActive: 50
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+
+
+mybatis:
+  type-aliases-package: com.example.demo.entity.primary
+  mapper-locations: classpath:mapper/primary/*Mapper.xml
+
+#pagehelper分页插件配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countsql
+
+---
+#profile=y的专用属性，也就是某个环境下的专用属性
+#生产环境
+spring:
+  profiles: prod
+server:
+  tomcat:
+    threads:
+      max: 300
+    max-connections: 1000
+
+
